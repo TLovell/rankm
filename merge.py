@@ -29,6 +29,12 @@ class Merge:
             scr.addstr(1, len(slists) + 2 + len(mlist) - i, mlist[i])
     
         scr.refresh()
+
+        
+
+
+    def choose():
+        pass
     
     def undo():
         pass
