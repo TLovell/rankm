@@ -1,5 +1,6 @@
 import click
-import merge as m
+from merge import Merge
+from curses import wrapper
 
 @click.group()
 @click.version_option()
@@ -13,7 +14,8 @@ def merge(seperate_files, merge_file):
     def pfile(f):
         return f.name
     click.echo('merge: %s, %s' % (list(map(pfile, seperate_files)), merge_file.name))
-    m.perform_merge(seperate_files, merge_file)
+    m = Merge(seperate_files, merge_file)
+    wrapper(m.main_loop)
 
 
 @cli.command()

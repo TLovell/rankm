@@ -1,16 +1,9 @@
 import curses
 
 class Merge:
-        
-    slists = []
-    mlist = []
-    ops = []
 
-    def __init__(seperate_files, merge_file):
-        self.scr = curses.initscr()
-        curses.noecho()
-        curses.cbreak()
-        scr.keypad(True)
+
+    def __init__(self, seperate_files, merge_file):
 
         self.slists = []
         for f in seperate_files:
@@ -19,28 +12,25 @@ class Merge:
         self.mlist = []
         self.ops = []
     
-    def main_loop():
-        scr.clear()
-        scr.addstr(1, len(slists) + 1, 'Which item goes next?')
-        for i in range(len(slists)):
-            scr.addstr(1, len(slists) - i, '[%d] %s' % (i, slists[i][0]))
-    
-        for i in range(len(mlist)):
-            scr.addstr(1, len(slists) + 2 + len(mlist) - i, mlist[i])
-    
-        scr.refresh()
-
+    def main_loop(self, scr):
+        while True:
+            scr.clear()
+            scr.addstr(1, len(self.slists) + 1, 'Which item goes next?')
+            for i in range(len(self.slists)):
+                scr.addstr(1, len(self.slists) - i, '[%d] %s' % (i, self.slists[i][0]))
         
+            for i in range(len(self.mlist)):
+                scr.addstr(1, len(self.slists) + 2 + len(self.mlist) - i, self.mlist[i])
+        
+            scr.refresh()
+
+            c = scr.getch()
+            if c == ord('q'):
+                break
 
 
-    def choose():
+    def choose(self):
         pass
     
-    def undo():
+    def undo(self):
         pass
-    
-    def close()
-        curses.nocbreak()
-        scr.keypad(False)
-        curses.echo()
-        curses.endwin()
