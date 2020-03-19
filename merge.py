@@ -1,23 +1,24 @@
 import curses
 
-numrow = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+NUM_ROW = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+
 def rowget(index):
-    return numrow[index]
+    return NUM_ROW[index]
 
 class Merge:
 
-    def __init__(self, seperate_files, merge_file):
+    def __init__(self, separate_files, merge_file):
 
         self.slists = []
-        for f in seperate_files:
-            self.slists.append(f.readlines())
-        
+        for separate_file in separate_files:
+            self.slists.append(separate_file.readlines())
+
         self.merge_file = merge_file
 
         self.mlist = []
         self.ops = []
         self.written_ops = 0
-    
+ 
     def main_loop(self, stdscr):
         while True:
             options = self.draw(stdscr)
@@ -26,8 +27,8 @@ class Merge:
 
     def draw(self, stdscr):
         stdscr.clear()
-        height,width = stdscr.getmaxyx()
-        
+        height, width = stdscr.getmaxyx()
+
         stdscr.addstr(height - len(self.slists) - 2, 0, 'Which item goes next?  [u] undo  [q] quit  [w] write')
         stdscr.addstr(height - 1, width - 25, self.get_status())
 
@@ -35,9 +36,9 @@ class Merge:
         for i in range(len(self.slists)):
             y = height - len(self.slists) - 1 + i
             if i in options:
-                stdscr.addstr(y, 2, '[%d] %s' % (numrow[i], self.slists[i][0]))
+                stdscr.addstr(y, 2, '[%d] %s' % (NUM_ROW[i], self.slists[i][0]))
             else:
-                stdscr.addstr(y, 2, '~%d~' % numrow[i])
+                stdscr.addstr(y, 2, '~%d~' % NUM_ROW[i])
 
         for i in range(len(self.mlist)):
             stdscr.addstr(height - len(self.slists) - 4 - len(self.mlist) + i, 0, '%d. %s' % (i + 1, self.mlist[i]))
@@ -57,7 +58,7 @@ class Merge:
         elif c == ord('w'):
             self.write()
         elif c in list(map(ord, map(str, map(rowget, options)))):
-            self.choose(numrow.index(int(chr(c))))
+            self.choose(NUM_ROW.index(int(chr(c))))
         return cont
 
     def get_options(self):
@@ -78,7 +79,7 @@ class Merge:
         def inverse():
             self.slists[c].insert(0, self.mlist.pop())
         self.ops.append(inverse)
-    
+
     def undo(self):
         if len(self.ops) > 0:
             self.ops.pop()()
